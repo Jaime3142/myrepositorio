@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ejercicio2</string>
+    <string name="Usuario">Jaime</string>
+    <string name="descripcion">Estudio informatica y compito en padel.</string>
+    <string name="post">Posts</string>
+    <string name="followers">Followers</string>
+    <string name="Friends">Friends</string>
+
+</resources>

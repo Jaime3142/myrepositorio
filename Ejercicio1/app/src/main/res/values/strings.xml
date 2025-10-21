@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Ejercicio1</string>
+    <string name="titulo">Instagram</string>
+    <string name="idioma">Español</string>
+    <string name="arribacontra">Telefono,usuario o correo</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="sesion">Inicio de sesion</string>
+    <string name="facebook">Inicio de sesion con Facebook</string>
+    <string name="olvido">Olvidasre la contraseña</string>
+</resources>
