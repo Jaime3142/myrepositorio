@@ -5,7 +5,9 @@ package com.mycompany.sql_bbdd;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -20,10 +22,14 @@ public class SQL_BBDD {
         String contra = "Med@c";
         int opcion = 0;
         
-        try{
-          Class.forName(DRIVER);
-            Connection dbConnection = DriverManager.getConnection(url, usuario, contra); 
+       
             
+            
+            
+            while(opcion!=6){
+                 try{
+          Class.forName(DRIVER);
+            Connection dbConnection = DriverManager.getConnection(url, usuario, contra);  
             System.out.println("Menu de opciones");
             System.out.println("1.-Crear cliente");
             System.out.println("2.-Crear producto");
@@ -34,7 +40,6 @@ public class SQL_BBDD {
             Scanner sc = new Scanner(System.in);
             System.out.println("Elige una opcion");
             opcion= Integer.parseInt(sc.nextLine());
-            
             switch(opcion){
                 case 1:
                   String nuevoCliente = "INSERT INTO cliente(nombre,edad,ciudad) VALUES(?,?,?)";
@@ -77,41 +82,122 @@ public class SQL_BBDD {
                     
                 case 3:
                  
-                    String nuevoPedido = "INSERT INTO pedidos(fecha,id_cliente) VALUES(?,?,?)";
-                     PreparedStatement ps3 = dbConnection.prepareStatement(nuevoPedido);
-                     
-                    LocalDateTime fechaHoy = LocalDateTime.now();
-                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyy HH/mm/ss");
-                    String fechaHora = fechaHoy.format(formato);
-                    
-                     System.out.println("Ingrese el id del cliente:");
+                     try {
+                   
+                    String sqlPedido = "INSERT INTO pedidos (fecha, id_cliente) VALUES (?, ?)";
+                    PreparedStatement psPedido = dbConnection.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+
+                    // Obtener la fecha actual formateada
+                    LocalDateTime fechaActual = LocalDateTime.now();
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String fechaHora = fechaActual.format(formato);
+
+                    // Solicitar el id del cliente
+                    System.out.print("Introduce el ID del cliente: ");
                     int id_cliente = Integer.parseInt(sc.nextLine());
-                    
-                    ps3.setString(1, fechaHora);
-                    ps3.setInt(2,id_cliente);
-                    ps3.executeUpdate();
-                    System.out.println("Pedido registrado");
-                    
-                     //preguntar carlos
+
+                    // Asignar parámetros e insertar el pedido
+                    psPedido.setString(1, fechaHora);
+                    psPedido.setInt(2, id_cliente);
+                    psPedido.executeUpdate();
+
+                    // Obtener el ID generado del pedido
+                    ResultSet rs = psPedido.getGeneratedKeys();
+                    int id_pedido = 0;
+                    if (rs.next()) {
+                        id_pedido = rs.getInt(1);
+                    }
+
+                    System.out.println("Pedido creado con ID: " + id_pedido);
+
+                 
+                    boolean continuar = true;
+                    while (continuar) {
+                        System.out.print("Introduce el ID del producto: ");
+                        int id_producto = Integer.parseInt(sc.nextLine());
+
+                        System.out.print("Introduce la cantidad: ");
+                        int cantidad = Integer.parseInt(sc.nextLine());
+
+                   
+                        String sqlPedidoProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (?, ?, ?)";
+                        PreparedStatement psPedidoProd = dbConnection.prepareStatement(sqlPedidoProducto);
+                        psPedidoProd.setInt(1, id_pedido);
+                        psPedidoProd.setInt(2, id_producto);
+                        psPedidoProd.setInt(3, cantidad);
+                        psPedidoProd.executeUpdate();
+
+                     
+                        String sqlActualizarStock = "UPDATE producto SET stock = stock - ? WHERE id_producto = ?";
+                        PreparedStatement psStock = dbConnection.prepareStatement(sqlActualizarStock);
+                        psStock.setInt(1, cantidad);
+                        psStock.setInt(2, id_producto);
+                        psStock.executeUpdate();
+
+                        System.out.println("Producto añadido al pedido y stock actualizado.");
+
+                       
+                        System.out.print("¿Deseas añadir otro producto al pedido? (s/n): ");
+                        String respuesta = sc.nextLine();
+                        if (!respuesta.equalsIgnoreCase("s")) {
+                            continuar = false;
+                        }
+                    }
+
+                    System.out.println("Pedido registrado correctamente.");
+
+                } catch (SQLException e) {
+                    System.out.println("Error al registrar el pedido: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("Error inesperado: " + e.getMessage());
+                }
                     
                     break;
                     
                 case 4:
-                    String detallesPedido = "SELECT \n" +
-"    c.nombre AS cliente,\n" +
-"    c.ciudad,\n" +
-"    p.fecha AS fecha_pedido,\n" +
-"    pr.nombre AS producto,\n" +
-"    pp.cantidad,\n" +
-"    pr.precio\n" +
-"FROM pedidos p\n" +
-"JOIN cliente c ON p.id_cliente = c.id_cliente\n" +
-"JOIN pedido_producto pp ON p.id_pedido = pp.id_pedido\n" +
-"JOIN producto pr ON pp.id_producto = pr.id_producto\n" +
-"WHERE p.id_pedido = 3;,";
-                     PreparedStatement ps4 = dbConnection.prepareStatement(detallesPedido);
+                    String detallesPedido = "SELECT " +
+    "    c.nombre AS nombre, " +
+    "    c.ciudad AS ciudad, " +
+    "    p.fecha AS fecha_pedido, " +
+    "    pr.nombre AS producto, " +
+    "    pp.cantidad, " +
+    "    pr.precio " +
+    "FROM pedidos p " +
+    "JOIN cliente c ON p.id_cliente = c.id_cliente " +
+    "JOIN pedido_producto pp ON p.id_pedido = pp.id_pedido " +
+    "JOIN producto pr ON pp.id_producto = pr.id_producto " +
+    "WHERE p.id_pedido = ?";
+                  
+                       
+                     PreparedStatement ps6 = dbConnection.prepareStatement(detallesPedido);
+                     System.out.println("Id del pedido:");
+                     int IdPedido = Integer.parseInt(sc.nextLine());
+                    ps6.setInt(1, IdPedido);
+                    ResultSet rsPedido = ps6.executeQuery();
+                   
+                     
+                     while (rsPedido.next()) {
+                         System.out.println("Nombre " + rsPedido.getString("nombre"));
+                         System.out.println("Ciudad " + rsPedido.getString("ciudad"));
+                         System.out.println("Fecha " + rsPedido.getString("fecha_pedido"));
+}
+
                      
                      
+                     
+                    break;
+                    
+                case 5:
+                    String eliminadbrProducto = "DELETE FROM pedido_producto WHERE id_pedido = ? AND id_producto = ?";
+                    PreparedStatement ps5 = dbConnection.prepareStatement(eliminadbrProducto);
+                     System.out.print("ID del pedido: ");
+            int idPedido = Integer.parseInt(sc.nextLine());
+            System.out.print("ID del producto: ");
+            int idProducto = Integer.parseInt(sc.nextLine());
+    ps5.setInt(1, idPedido);
+    ps5.setInt(2, idProducto);
+    int borrados = ps5.executeUpdate();
+    System.out.println(borrados + " registro eliminado");
                     break;
             }
             
@@ -120,6 +206,9 @@ public class SQL_BBDD {
             System.out.println(e.getMessage());
         }catch(ClassNotFoundException e){
             System.out.println(e.getMessage());
-        }
+        } 
+            }
+          
     }
 }
+
