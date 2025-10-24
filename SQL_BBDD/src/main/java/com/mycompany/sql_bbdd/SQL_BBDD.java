@@ -37,9 +37,12 @@ public class SQL_BBDD {
             System.out.println("4.-Consultar detalles pedido");
             System.out.println("5.-Eliminar un producto");
             System.out.println("6.-Salir");
+            
             Scanner sc = new Scanner(System.in);
             System.out.println("Elige una opcion");
             opcion= Integer.parseInt(sc.nextLine());
+            
+            
             switch(opcion){
                 case 1:
                   String nuevoCliente = "INSERT INTO cliente(nombre,edad,ciudad) VALUES(?,?,?)";
