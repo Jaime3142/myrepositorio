@@ -56,7 +56,7 @@ INSERT INTO pedido_producto(id_pedido,id_producto,cantidad) values
 (4,3,5);
 
 
-UPDATE producto set stock = 10 where id_producto = 1;
+/*UPDATE producto set stock = 10 where id_producto = 1;
 SELECT nombre from cliente where nombre like 'L%' ;
 SELECT nombre,ciudad from cliente where edad >= 26;
 SELECT nombre from cliente where edad >=25 && edad <=45 order by nombre asc;
@@ -66,4 +66,9 @@ join cliente on pedidos.id_cliente = cliente.id_cliente;
 
 SELECT c.* FROM cliente c join pedido p on p.id_cliente = c.id_cliente 
 join pedido_producto pp on pp.id_pedido = p.id_pedido
-join producto p on p.id_proudcto = pp.id_producto;
+join producto p on p.id_proudcto = pp.id_producto;*/
+
+select * from cliente;
+select * from producto;
+select * from pedido_producto;
+select * from pedidos;

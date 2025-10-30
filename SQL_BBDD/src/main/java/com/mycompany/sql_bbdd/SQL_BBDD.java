@@ -16,8 +16,8 @@ import java.util.Scanner;
 public class SQL_BBDD {
 
     public static void main(String[] args) {
-         String DRIVER = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/bbdd_trabajo";
+        String DRIVER = "com.mysql.cj.jdbc.Driver";
+        String url = "jdbc:mysql://localhost:3306/TIENDA_DB";
         String usuario = "root";
         String contra = "Med@c";
         int opcion = 0;
@@ -64,7 +64,7 @@ public class SQL_BBDD {
                     
                 case 2:
                     
-                       String nuevoProducto = "INSERT INTO producto(nombre,precio,stock) VALUES(?,?,?)";
+                      String nuevoProducto = "INSERT INTO producto(nombre,precio,stock) VALUES(?,?,?)";
                     PreparedStatement ps2 = dbConnection.prepareStatement(nuevoProducto);
                     
                     System.out.println("Nombre del prodcuto:");
@@ -90,21 +90,21 @@ public class SQL_BBDD {
                     String sqlPedido = "INSERT INTO pedidos (fecha, id_cliente) VALUES (?, ?)";
                     PreparedStatement psPedido = dbConnection.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
 
-                    // Obtener la fecha actual formateada
+                   
                     LocalDateTime fechaActual = LocalDateTime.now();
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     String fechaHora = fechaActual.format(formato);
 
-                    // Solicitar el id del cliente
+                    
                     System.out.print("Introduce el ID del cliente: ");
                     int id_cliente = Integer.parseInt(sc.nextLine());
 
-                    // Asignar parámetros e insertar el pedido
+                   
                     psPedido.setString(1, fechaHora);
                     psPedido.setInt(2, id_cliente);
                     psPedido.executeUpdate();
 
-                    // Obtener el ID generado del pedido
+                   
                     ResultSet rs = psPedido.getGeneratedKeys();
                     int id_pedido = 0;
                     if (rs.next()) {
@@ -114,8 +114,8 @@ public class SQL_BBDD {
                     System.out.println("Pedido creado con ID: " + id_pedido);
 
                  
-                    boolean continuar = true;
-                    while (continuar) {
+                    boolean mas = true;
+                    while (mas) {
                         System.out.print("Introduce el ID del producto: ");
                         int id_producto = Integer.parseInt(sc.nextLine());
 
@@ -140,10 +140,10 @@ public class SQL_BBDD {
                         System.out.println("Producto añadido al pedido y stock actualizado.");
 
                        
-                        System.out.print("¿Deseas añadir otro producto al pedido? (s/n): ");
+                        System.out.print("¿Deseas añadir otro producto al pedido? (si o no): ");
                         String respuesta = sc.nextLine();
-                        if (!respuesta.equalsIgnoreCase("s")) {
-                            continuar = false;
+                        if (!respuesta.equalsIgnoreCase("si")) {
+                            mas = false;
                         }
                     }
 
