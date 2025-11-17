@@ -38,5 +38,8 @@ public class Jugador {
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
     }
+    public String toString() {
+        return " nombre='" + nombre + "', posicion='" + posicion;
+    }
     
 }

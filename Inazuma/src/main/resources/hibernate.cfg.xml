@@ -16,10 +16,10 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         
-        <!-- Fichero de mapeo -->
-        <mapping resource="Equipo.hbm.xml"/>
-         <mapping resource="Jugador.hbm.xml"/>
-         <mapping resource="Tecnica.hbm.xml"/>
+        <mapping resource="Jugador.hbm.xml"/>  
+<mapping resource="Equipo.hbm.xml"/>
+<mapping resource="Tecnica.hbm.xml"/>
+
  
     </session-factory>
 </hibernate-configuration>
