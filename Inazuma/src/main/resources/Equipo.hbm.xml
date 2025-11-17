@@ -1,0 +1,13 @@
+<hibernate-mapping>
+<class name="com.example.Inazuma.Equipo" table ="Equipo">
+<meta attribute="class-description">
+Clase que almacena información de equipos.
+</meta>
+<id name="idEquipo" type="int" column="idEquipo">
+<generator class="native"/>
+</id>
+<property name="nombre" column="Nombre" type="string"/>
+<property name="pais" column="Pais" type="string"/>
+
+</class>
+</hibernate-mapping>

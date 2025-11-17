@@ -1,0 +1,13 @@
+<hibernate-mapping>
+<class name="com.example.Inazuma.Jugador" table ="Jugador">
+<meta attribute="class-description">
+Clase que almacena información de jugadores.
+</meta>
+<id name="idJugador" type="int" column="idJugador">
+<generator class="native"/>
+</id>
+<property name="nombre" column="Nombre" type="string"/>
+<property name="posicion" column="Posicion" type="string"/>
+
+</class>
+</hibernate-mapping>

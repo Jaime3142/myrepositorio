@@ -1,0 +1,12 @@
+<hibernate-mapping>
+<class name="com.example.Inazuma.Tecnica" table ="Tecnica">
+<meta attribute="class-description">
+Clase que almacena información de técnicas.
+</meta>
+<id name="idTecnica" type="int" column="idTecnica">
+<generator class="native"/>
+</id>
+<property name="nombre" column="Nombre" type="string"/>
+<property name="tipo" column="Tipo" type="string"/>
+</class>
+</hibernate-mapping>
