@@ -8,6 +8,7 @@ Clase que almacena información de jugadores.
 </id>
 <property name="nombre" column="Nombre" type="string"/>
 <property name="posicion" column="Posicion" type="string"/>
+  
 
 </class>
 </hibernate-mapping>

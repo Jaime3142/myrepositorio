@@ -8,6 +8,5 @@ Clase que almacena información de equipos.
 </id>
 <property name="nombre" column="Nombre" type="string"/>
 <property name="pais" column="Pais" type="string"/>
-
 </class>
 </hibernate-mapping>
