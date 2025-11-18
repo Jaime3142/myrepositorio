@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Evaluable3</string>
+    <string name="title">Añadir Alumno</string>
+    <string name="name">Nombre</string>
+    <string name="PSP">Nota de PSP</string>
+    <string name="AD">Nota de Acceso a Datos</string>
+    <string name="Interfaces">Nota de Interfaces</string>
+    <string name="Ciber">Nota de ciberseguridad</string>
+    <string name="Ingles">Nota de ingles</string>
+    <string name="guardar">Guardar Alumno</string>
+    <string name="mostrar">Mostrar Alumno</string>
+</resources>

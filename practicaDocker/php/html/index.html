@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Usuarios Simple</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 20px auto; padding: 0 10px; }
+    .card { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+    input, button { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #eee; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestión de Usuarios</h1>
+
+  <div class="card">
+    <h3>Añadir Usuario</h3>
+    <form id="form-add">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="number" id="edad" placeholder="Edad" required>
+      <button type="submit">Guardar</button>
+    </form>
+    <div id="status-add"></div>
+  </div>
+
+  <div class="card">
+    <h3>Listado de Usuarios <button onclick="listar()" style="width: auto; float: right; padding: 5px 10px;">Actualizar</button></h3>
+    <table id="tabla-usuarios">
+      <thead>
+        <tr><th>ID</th><th>Nombre</th><th>Edad</th></tr>
+      </thead>
+      <tbody id="tbody-users"></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Función para listar usuarios
+    async function listar() {
+      const tbody = document.getElementById('tbody-users');
+      tbody.innerHTML = '<tr><td colspan="3">Cargando...</td></tr>';
+      try {
+        const res = await fetch('listar.php');
+        const data = await res.json();
+        tbody.innerHTML = data.map(u => `<tr><td>${u.id}</td><td>${u.nombre}</td><td>${u.edad}</td></tr>`).join('');
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="3">Error al cargar</td></tr>';
+      }
+    }
+
+    document.getElementById('form-add').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const edad = document.getElementById('edad').value;
+      const status = document.getElementById('status-add');
+
+      try {
+        const params = new URLSearchParams({ nombre, edad });
+        await fetch('insertar.php', { method: 'POST', body: params });
+        status.textContent = 'Guardado correctamente';
+        document.getElementById('form-add').reset();
+        listar();
+      } catch (e) {
+        status.textContent = 'Error al guardar';
+      }
+    });
+
+    listar();
+  </script>
+
+</body>
+</html>
