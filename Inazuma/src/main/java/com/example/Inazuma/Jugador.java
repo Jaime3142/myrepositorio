@@ -4,7 +4,7 @@ public class Jugador {
     private int idJugador;
     private String nombre;
     private String posicion;
-    private int idEquipo;
+    
 
     public Jugador(){
 
@@ -32,12 +32,7 @@ public class Jugador {
     public void setPosicion(String posicion) {
         this.posicion = posicion;
     }
-    public int getIdEquipo() {
-        return idEquipo;
-    }
-    public void setIdEquipo(int idEquipo) {
-        this.idEquipo = idEquipo;
-    }
+    
     public String toString() {
         return " nombre=" + nombre + " posicion= " + posicion;
     }

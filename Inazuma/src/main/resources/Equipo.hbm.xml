@@ -8,5 +8,9 @@ Clase que almacena información de equipos.
 </id>
 <property name="nombre" column="Nombre" type="string"/>
 <property name="pais" column="Pais" type="string"/>
+  <set name="jugadores" inverse="true" cascade="all">
+            <key column="idEquipo"/>
+            <one-to-many class="com.example.Inazuma.Jugador"/>
+        </set>
 </class>
 </hibernate-mapping>

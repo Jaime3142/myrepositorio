@@ -8,6 +8,10 @@ Clase que almacena información de técnicas.
 </id>
 <property name="nombre" column="Nombre" type="string"/>
 <property name="tipo" column="Tipo" type="string"/>
+  <set name="jugadores" table="Jugador_Tecnica" inverse="true">
+            <key column="idTecnica"/>
+            <many-to-many class="com.example.Inazuma.Jugador" column="idJugador"/>
+        </set>
 
     </class>
 </hibernate-mapping>
