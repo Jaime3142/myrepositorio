@@ -10,53 +10,94 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final String BASE = "http://10.0.2.2:8080/";
-    private static final String URL_LISTAR = BASE + "listar.php";
     private static final String URL_INSERTAR = BASE + "insertar.php";
 
-    private EditText name;
-    private EditText psp;
-    private EditText ad;
-    private EditText ciber;
-    private EditText ingles;
-    private EditText interfaces;
-    private Button guardar;
+    private EditText name, psp, ad, ciber, ingles, interfaces;
+    private Button save;
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        name =findViewById(R.id.nombre);
+
+        name = findViewById(R.id.nombre);
         psp = findViewById(R.id.psp);
         ad = findViewById(R.id.ad);
         ciber = findViewById(R.id.ciber);
         ingles = findViewById(R.id.ingles);
         interfaces = findViewById(R.id.interfaces);
-        guardar = findViewById(R.id.guardar);
+        save = findViewById(R.id.guardar);
 
+        queue = Volley.newRequestQueue(this);
 
+        save.setOnClickListener(v -> nuevoAlumno());
+    }
 
-        private void nuevoAlumno(){
-            String nombre = name.getText().toString().trim();
-            String proceso = psp.getText().toString().trim();
-            String acceso = ad.getText().toString().trim();
-            String ciberseguridad = ciber.getText().toString().trim();
-            String english = ingles.getText().toString().trim();
-            String interf = interfaces.getText().toString().trim();
+    private void nuevoAlumno() {
+
+        String nombre = name.getText().toString().trim();
+        String notaPsp = psp.getText().toString().trim();
+        String notaAd = ad.getText().toString().trim();
+        String notaCiber = ciber.getText().toString().trim();
+        String notaIngles = ingles.getText().toString().trim();
+        String notaInterfaces = interfaces.getText().toString().trim();
+
+        // Validaciones
+        if (nombre.isEmpty() || notaPsp.isEmpty() || notaAd.isEmpty() ||
+                notaCiber.isEmpty() || notaIngles.isEmpty() || notaInterfaces.isEmpty()) {
+
+            toast("Rellena todos los campos");
+            return;
         }
 
+        StringRequest req = new StringRequest(
+                Request.Method.POST,
+                URL_INSERTAR,
+                response -> {
+                    toast("Insertado correctamente");
+                    limpiarCampos();
+                },
+                error -> {
+                    Log.e("VOLLEY", "Error insertar: " + error);
+                    toast("Error al insertar");
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("nombre", nombre);
+                params.put("psp", notaPsp);
+                params.put("ad", notaAd);
+                params.put("ciber", notaCiber);
+                params.put("ingles", notaIngles);
+                params.put("interfaces", notaInterfaces);
+                return params;
+            }
+        };
+
+        queue.add(req);
+    }
+
+    private void limpiarCampos() {
+        name.setText("");
+        psp.setText("");
+        ad.setText("");
+        ciber.setText("");
+        ingles.setText("");
+        interfaces.setText("");
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

@@ -39,7 +39,7 @@ public class Jugador {
         this.idEquipo = idEquipo;
     }
     public String toString() {
-        return " nombre='" + nombre + "', posicion='" + posicion;
+        return " nombre=" + nombre + " posicion= " + posicion;
     }
     
 }
