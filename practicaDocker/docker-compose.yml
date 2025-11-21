@@ -1,14 +1,12 @@
 version: '3.8'
 services:
   db:
-    image: mysql:8.0
+    image: mariadb:11
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: practicadocker
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Med@c
-    ports:
-        - "3307:3306"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bd_android
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
     volumes:
       - db_data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro

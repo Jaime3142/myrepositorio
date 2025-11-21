@@ -1,17 +1,19 @@
 <?php
 include 'conexion.php';
 
-// Obtención directa de variables POST (asumiendo que siempre llegan)
 $nombre = $_POST['nombre'];
-$PSP = $_POST['psp'];
-$interfaces = $_POST['interfaces'];
-$accesodatos = $_POST['accesodatos'];
-$ciberseguridad = $_POST['ciberseguridad'];
+$psp = $_POST['psp'];
+$ad = $_POST['ad'];
+$ciber = $_POST['ciber'];
 $ingles = $_POST['ingles'];
+$interfaces = $_POST['interfaces'];
 
-// Inserción directa sin escapar (¡INSEGURO!)
-mysqli_query($conexion, "INSERT INTO alumnos(nombre, psp, interfaces, accesodatos, ciberseguridad, ingles) VALUES ('$nombre', '$PSP','$interfaces','$accesodatos','$ciberseguridad','$ingles')");
+$query = "INSERT INTO alumnos(nombre, psp, ad, ciber, ingles, interfaces)
+          VALUES ('$nombre', '$psp', '$ad', '$ciber', '$ingles', '$interfaces')";
 
-// Respuesta OK simple
-echo json_encode(['resultado' => 'OK']);
+if (mysqli_query($conexion, $query)) {
+    echo json_encode(['resultado' => 'OK']);
+} else {
+    echo json_encode(['resultado' => 'ERROR', 'detalle' => mysqli_error($conexion)]);
+}
 ?>

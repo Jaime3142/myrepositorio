@@ -8,15 +8,12 @@ Clase que almacena información de jugadores.
 </id>
 <property name="nombre" column="Nombre" type="string"/>
 <property name="posicion" column="Posicion" type="string"/>
-  <many-to-one name="equipo"
-                     class="com.example.Inazuma.Equipo"
-                     column="idEquipo"
-                     not-null="false"
-                     cascade="none"/>
-<!-- Relación muchos a muchos con Tecnica -->
-<set name="tecnicas" table="Jugador_Tecnica" cascade="all">
-    <key column="idJugador"/>
-    <many-to-many class="com.example.Inazuma.Tecnica" column="idTecnica"/>
-</set>
+
+ <!-- <many-to-one name="equipo" class="com.example.Inazuma.Equipo"
+column="idEquipo"
+not-null="false"
+cascade="none"/> -->
+
+
 </class>
 </hibernate-mapping>
