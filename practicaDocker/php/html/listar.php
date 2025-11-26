@@ -1,10 +1,12 @@
 <?php
 include 'conexion.php';
-// Consulta directa y obtención de resultados en un bucle reducido
-$res = mysqli_query($conexion, "SELECT * FROM alumnos");
-$datos = [];
-while ($f = mysqli_fetch_assoc($res)) $datos[] = $f;
 
-// Salida JSON directa
+$res = mysqli_query($conexion, "SELECT * FROM alumnos ORDER BY id DESC");
+$datos = [];
+
+while ($fila = mysqli_fetch_assoc($res)) {
+    $datos[] = $fila;
+}
+
 echo json_encode($datos);
 ?>
