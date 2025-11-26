@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestión de Alumnos</title>
-  <style>
-    body { font-family: Arial; max-width: 900px; margin: auto; padding: 20px; }
-    .card { padding: 20px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 20px; }
-    h2 button { float:right; padding:6px 10px; }
-    input, button { padding: 8px; width: 100%; margin: 5px 0; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border: 1px solid #ddd; }
-    th { background: #f4f4f4; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Gestión de Alumnos</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: auto; padding: 20px; }
+        .card { padding: 20px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 20px; }
+        input, button { padding: 8px; margin: 5px 0; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background: #f0f0f0; }
+    </style>
 </head>
 <body>
 
-<h1>Gestión de Alumnos</h1>
+<h1>Gestión de alumnos</h1>
 
 <!-- FORMULARIO -->
 <div class="card">
-  <h2>Añadir Alumno</h2>
+  <h2>Insertar alumno</h2>
+
   <form id="form-add">
     <input type="text" id="nombre" placeholder="Nombre" required>
     <input type="number" id="psp" placeholder="Nota PSP" required>
     <input type="number" id="ad" placeholder="Nota AD" required>
-    <input type="number" id="ciber" placeholder="Nota Ciber" required>
+    <input type="number" id="ciber" placeholder="Nota Ciberseguridad" required>
     <input type="number" id="ingles" placeholder="Nota Inglés" required>
     <input type="number" id="interfaces" placeholder="Nota Interfaces" required>
-    <button type="submit">Guardar Alumno</button>
+    <button type="submit">Guardar</button>
   </form>
-  <div id="status-add"></div>
+
+  <p id="status-add"></p>
 </div>
 
 <!-- LISTADO -->
 <div class="card">
-  <h2>Listado de Alumnos 
-    <button onclick="listar()">Actualizar</button>
+  <h2>Listado de alumnos
+    <button onclick="listar()" style="float:right; width:auto; padding:5px 15px;">Actualizar</button>
   </h2>
 
   <table>
@@ -45,7 +46,7 @@
         <th>Nombre</th>
         <th>PSP</th>
         <th>AD</th>
-        <th>Ciber</th>
+        <th>Ciberseg.</th>
         <th>Inglés</th>
         <th>Interfaces</th>
       </tr>
@@ -55,66 +56,64 @@
 </div>
 
 <script>
-  /** LISTAR ALUMNOS **/
-  async function listar() {
-    const tbody = document.getElementById("tbody");
-    tbody.innerHTML = "<tr><td colspan='7'>Cargando...</td></tr>";
+async function listar() {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = "<tr><td colspan='7'>Cargando...</td></tr>";
 
-    try {
-      const res = await fetch("listar.php");
-      const data = await res.json();
+  try {
+    const res = await fetch("listar.php");
+    const data = await res.json();
 
-      tbody.innerHTML = data.map(a =>
-        `<tr>
-          <td>${a.id}</td>
-          <td>${a.nombre}</td>
-          <td>${a.psp}</td>
-          <td>${a.ad}</td>
-          <td>${a.ciber}</td>
-          <td>${a.ingles}</td>
-          <td>${a.interfaces}</td>
-        </tr>`
-      ).join("");
+    tbody.innerHTML = data.map(a => `
+      <tr>
+        <td>${a.id}</td>
+        <td>${a.nombre}</td>
+        <td>${a.psp}</td>
+        <td>${a.ad}</td>
+        <td>${a.ciber}</td>
+        <td>${a.ingles}</td>
+        <td>${a.interfaces}</td>
+      </tr>
+    `).join("");
 
-    } catch (error) {
-      tbody.innerHTML = "<tr><td colspan='7'>Error al cargar</td></tr>";
-    }
+  } catch {
+    tbody.innerHTML = "<tr><td colspan='7'>Error al cargar</td></tr>";
   }
+}
 
-  /** INSERTAR ALUMNO **/
-  document.getElementById("form-add").addEventListener("submit", async e => {
-    e.preventDefault();
+document.getElementById('form-add').addEventListener('submit', async e => {
+  e.preventDefault();
 
-    const params = new URLSearchParams({
-      nombre: document.getElementById("nombre").value,
-      psp: document.getElementById("psp").value,
-      ad: document.getElementById("ad").value,
-      ciber: document.getElementById("ciber").value,
-      ingles: document.getElementById("ingles").value,
-      interfaces: document.getElementById("interfaces").value
-    });
-
-    const status = document.getElementById("status-add");
-
-    try {
-      const res = await fetch("insertar.php", { method: "POST", body: params });
-      const data = await res.json();
-
-      if (data.resultado === "OK") {
-        status.textContent = "Alumno guardado correctamente";
-        document.getElementById("form-add").reset();
-        listar();
-      } else {
-        status.textContent = "ERROR: " + data.detalle;
-      }
-
-    } catch (e) {
-      status.textContent = "Error al guardar";
-    }
+  const params = new URLSearchParams({
+    nombre: nombre.value,
+    psp: psp.value,
+    ad: ad.value,
+    ciber: ciber.value,
+    ingles: ingles.value,
+    interfaces: interfaces.value
   });
 
-  listar(); // cargar al inicio
+  const status = document.getElementById('status-add');
+
+  try {
+    const res = await fetch("insertar.php", { method: "POST", body: params });
+    const data = await res.json();
+
+    if (data.resultado === "OK") {
+      status.textContent = "Alumno guardado correctamente";
+      document.getElementById('form-add').reset();
+      listar();
+    } else {
+      status.textContent = "ERROR: " + data.detalle;
+    }
+  } catch {
+    status.textContent = "Error al guardar";
+  }
+});
+
+listar();
 </script>
 
 </body>
 </html>
+

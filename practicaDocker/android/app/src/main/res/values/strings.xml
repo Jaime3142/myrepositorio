@@ -9,4 +9,5 @@
     <string name="Ingles">Nota de ingles</string>
     <string name="guardar">Guardar Alumno</string>
     <string name="mostrar">Mostrar Alumno</string>
+    <string name="Buscar">Dime el nombre que quieres buscar</string>
 </resources>

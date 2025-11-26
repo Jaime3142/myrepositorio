@@ -1,21 +1,25 @@
+# docker-compose.yml
 version: '3.8'
 
 services:
   db:
+    # ... (Sin cambios)
     image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bd_android
     ports:
-      - "3308:3306"
+      - "3308:3306" 
     volumes:
       - db_data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    
 
   web:
-    image: php:8.2-apache
+    image: php:8.2-apache 
     depends_on:
       - db
+   
     command: >
       bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && apache2-foreground"
     volumes:
@@ -24,6 +28,7 @@ services:
       - "8080:80"
     environment:
       PHP_DISPLAY_ERRORS: 1
+    
 
 volumes:
   db_data:

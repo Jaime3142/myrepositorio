@@ -3,27 +3,23 @@ require_once 'conexion.php';
 header('Content-Type: application/json');
 
 $nombre = $_POST['nombre'] ?? '';
-$psp = (int) ($_POST['psp'] ?? 0);
-$ad = (int) ($_POST['ad'] ?? 0);
-$ciber = (int) ($_POST['ciber'] ?? 0);
-$ingles = (int) ($_POST['ingles'] ?? 0);
-$interfaces = (int) ($_POST['interfaces'] ?? 0);
+$psp = intval($_POST['psp'] ?? 0);
+$ad = intval($_POST['ad'] ?? 0);
+$ciber = intval($_POST['ciber'] ?? 0);
+$ingles = intval($_POST['ingles'] ?? 0);
+$interfaces = intval($_POST['interfaces'] ?? 0);
 
-if ($nombre === "") {
-    echo json_encode(['resultado' => 'ERROR', 'detalle' => 'Falta el nombre']);
-    exit;
-}
+$sql = "INSERT INTO alumnos(nombre, psp, ad, ciberseguridad, ingles, interfaces)
+        VALUES ('$nombre', $psp, $ad, $ciber, $ingles, $interfaces)";
 
-$query = "INSERT INTO alumnos(nombre, psp, ad, ciber, ingles, interfaces)
-          VALUES ('$nombre', $psp, $ad, $ciber, $ingles, $interfaces)";
-
-if (mysqli_query($conexion, $query)) {
+if (mysqli_query($conexion, $sql)) {
     echo json_encode(['resultado' => 'OK']);
 } else {
-    echo json_encode(['resultado' => 'ERROR', 'detalle' => mysqli_error($conexion)]);
+    echo json_encode([
+        'resultado' => 'ERROR',
+        'detalle' => mysqli_error($conexion)
+    ]);
 }
 
 mysqli_close($conexion);
-
-?>
 
