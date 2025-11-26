@@ -1,5 +1,6 @@
 <?php
-include 'conexion.php';
+require_once 'conexion.php';
+header('Content-Type: application/json');
 
 $res = mysqli_query($conexion, "SELECT * FROM alumnos ORDER BY id DESC");
 $datos = [];
