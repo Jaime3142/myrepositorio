@@ -1,10 +1,12 @@
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -81,47 +83,48 @@ public class InformeAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarActionPerformed
-        String name = nombre.getText().trim();
-            if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Introduce un nombre");
-                return;
-            }
+       String name = nombre.getText().trim();
+    if (name.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un nombre");
+        return;
+    }
 
-            try {
-                // Conexión a MariaDB (Docker)
-                String url = "jdbc:mysql://localhost:3308/bd_android";
-                String user = "root";
-                String pass = "root";
+    try {
+        // Conexión a MariaDB (Docker)
+        String url = "jdbc:mariadb://localhost:3308/bd_android";
+        String user = "root";
+        String pass = "root";
 
-                Connection conn = DriverManager.getConnection(url, user, pass);
+        Connection conn = DriverManager.getConnection(url, user, pass);
 
-                // Consulta
-                String sql = "SELECT nombre, psp, ad, ciberseguridad AS ciber, ingles, interfaces FROM alumnos WHERE nombre = ?";
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, name);
-                ResultSet rs = stmt.executeQuery();
+        // Consulta SQL
+        String sql = "SELECT nombre, psp, ad, ciberseguridad AS ciber, ingles, interfaces FROM alumnos WHERE nombre = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
+stmt.setString(1, name);
+ResultSet rs = stmt.executeQuery();
 
-                if (!rs.next()) {
-                    JOptionPane.showMessageDialog(this, "Alumno no encontrado");
-                    return;
-                }
+// Verificar sin mover el cursor
+if (!rs.isBeforeFirst()) {
+    JOptionPane.showMessageDialog(this, "Alumno no encontrado");
+    return;
+}
 
-                // Pasar ResultSet a Jasper
-                JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
 
-                // Cargar archivo .jasper (diseño del informe)
-                JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporteAlumno.jasper");
-                JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, jrRS);
+// Cargar JRXML
+InputStream input = getClass().getResourceAsStream("/DockerJasper.jrxml");
+JasperReport reporte = JasperCompileManager.compileReport(input);
 
-                // Mostrar el informe
-                JasperViewer.viewReport(jasperPrint, false);
+// Generar
+JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, jrRS);
+JasperViewer.viewReport(jasperPrint, false);
 
-                conn.close();
+        conn.close();
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-            }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
 
     }//GEN-LAST:event_generarActionPerformed
 

@@ -1,5 +1,5 @@
 <?php
-// obtenerAlumno.php
+
 require_once 'conexion.php';
 
 header('Content-Type: application/json');
@@ -23,7 +23,7 @@ if (!$result) {
 }
 
 if (mysqli_num_rows($result) === 0) {
-    // No se encontró el alumno
+   
     echo json_encode(['error' => 'Alumno no encontrado']);
     exit();
 }
@@ -31,7 +31,7 @@ if (mysqli_num_rows($result) === 0) {
 // Obtener datos del alumno
 $alumno = mysqli_fetch_assoc($result);
 
-// Devolver los datos en JSON
+
 echo json_encode($alumno);
 
 mysqli_close($conexion);

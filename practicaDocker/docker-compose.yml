@@ -1,9 +1,9 @@
-# docker-compose.yml
+
 version: '3.8'
 
 services:
   db:
-    # ... (Sin cambios)
+    
     image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: root

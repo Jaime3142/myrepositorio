@@ -1,0 +1,108 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="DockerJasper" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f962e9c8-20e4-41af-86af-bcc3670ccabe">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MariaDbAd"/>
+	<parameter name="nombreJ" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[select * from alumnos where nombre = $P{nombreJ};]]></query>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<field name="psp" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="psp"/>
+		<property name="com.jaspersoft.studio.field.name" value="psp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<field name="ad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ad"/>
+		<property name="com.jaspersoft.studio.field.name" value="ad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<field name="ciberseguridad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ciberseguridad"/>
+		<property name="com.jaspersoft.studio.field.name" value="ciberseguridad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<field name="ingles" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ingles"/>
+		<property name="com.jaspersoft.studio.field.name" value="ingles"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<field name="interfaces" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="interfaces"/>
+		<property name="com.jaspersoft.studio.field.name" value="interfaces"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="alumnos"/>
+	</field>
+	<variable name="media" calculation="Average" class="java.lang.Float">
+		<expression><![CDATA[($F{psp} + $F{ad} + $F{ciberseguridad} + $F{ingles} + $F{interfaces}) / 5.0]]></expression>
+	</variable>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="94b7e547-9e54-4c4c-b255-9a9fe979bdb9" x="180" y="20" width="190" height="50" fontSize="20.0">
+			<text><![CDATA[Notas Alumno]]></text>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="b4664ff6-8be3-4cc3-a7a7-334a7ce779eb" x="100" y="10" width="100" height="30">
+			<text><![CDATA[NotaPsp]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4dae266-2830-4189-97fe-4d304bc958f4"/>
+		</element>
+		<element kind="staticText" uuid="b9b953e1-cf66-4ddf-82c4-a7e08bab7d1f" x="-10" y="10" width="100" height="30">
+			<text><![CDATA[nombre]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="90a9bc1a-3ab6-422b-b2e5-7d464b7d5ddf"/>
+		</element>
+		<element kind="staticText" uuid="9434930a-73dc-4799-a2f7-d5f300b702cb" x="210" y="10" width="100" height="30">
+			<text><![CDATA[NotaAd]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44086d3e-db3f-4b25-98bc-4ad66c154fc9"/>
+		</element>
+		<element kind="staticText" uuid="5c7ea406-943a-4c14-be47-e207f66e78aa" x="330" y="10" width="80" height="30">
+			<text><![CDATA[NotaCiber]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de279e14-6dc5-4e79-988e-70e9e1fae436"/>
+		</element>
+		<element kind="staticText" uuid="1adb1d8a-4e32-49c6-ba62-32e050d51f34" x="420" y="10" width="60" height="30">
+			<text><![CDATA[NotaIngles]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b69adcc-e366-4fb8-b688-3593077fe585"/>
+		</element>
+		<element kind="staticText" uuid="ab021334-b346-4c45-84a0-ea6a38bfcee8" x="490" y="10" width="100" height="30">
+			<text><![CDATA[NotaInterfaces]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9623a197-0ce9-480d-acc3-704ffa0eaa21"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="6689afa2-01f3-4655-b308-8302ae027c11" x="100" y="30" width="100" height="30">
+				<expression><![CDATA[$F{psp}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4dae266-2830-4189-97fe-4d304bc958f4"/>
+			</element>
+			<element kind="textField" uuid="5500b44a-2155-45cf-bdda-4a94299b8266" x="-11" y="30" width="100" height="30">
+				<expression><![CDATA[$F{nombre}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="90a9bc1a-3ab6-422b-b2e5-7d464b7d5ddf"/>
+			</element>
+			<element kind="textField" uuid="7b2422b5-ba19-4023-88f4-b0e1876eceeb" x="210" y="30" width="80" height="30">
+				<expression><![CDATA[$F{ad}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44086d3e-db3f-4b25-98bc-4ad66c154fc9"/>
+			</element>
+			<element kind="textField" uuid="e070122a-bf54-4dca-a3ca-048c6608c600" x="320" y="30" width="70" height="30">
+				<expression><![CDATA[$F{ciberseguridad}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de279e14-6dc5-4e79-988e-70e9e1fae436"/>
+			</element>
+			<element kind="textField" uuid="d1bdfc41-33e6-4eaf-a05a-dee37c7f7707" x="420" y="30" width="60" height="30">
+				<expression><![CDATA[$F{ingles}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b69adcc-e366-4fb8-b688-3593077fe585"/>
+			</element>
+			<element kind="textField" uuid="5dc49a14-4cf3-4fad-87df-eabbb204447a" x="490" y="30" width="100" height="30">
+				<expression><![CDATA[$F{interfaces}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9623a197-0ce9-480d-acc3-704ffa0eaa21"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="59" splitType="Stretch">
+		<element kind="textField" uuid="d19ec8df-67e4-4591-9a98-00229df38610" x="430" y="14" width="100" height="30">
+			<expression><![CDATA[$V{media}]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
