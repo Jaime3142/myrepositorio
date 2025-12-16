@@ -14,11 +14,11 @@ public class Coches {
     public static void main(String[] args) {
            // Configuración de conexión
             String url = "jdbc:oracle:thin:@//localhost:1521/xe";
-            String usuario = "coche";
-            String contraseña = "Med@c";
+            String usuario = "concen";
+            String contrasena = "Med@c";
             
             // Conexión a la base de datos
-            try (Connection conn = DriverManager.getConnection(url, usuario, contraseña)) {
+            try (Connection conn = DriverManager.getConnection(url, usuario, contrasena)) {
                 System.out.println("Conexión exitosa a la base de datos Oracle!");
                 System.out.println("Conectando con la base de datos en " + url);
 
