@@ -1,0 +1,29 @@
+# Java
+*.class
+*.jar
+*.exe
+
+# JRE
+jre/
+Nomina/jre/
+
+# Binarios
+bin/
+dist/
+build/
+out/
+
+# Windows
+*.dll
+*.msi
+
+# Launch4j
+*.l4j.ini
+
+# Inno Setup
+*.iss~
+Output/
+
+# IDE
+.idea/
+*.iml
